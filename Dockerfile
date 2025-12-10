@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-# Install only essential system libraries for Puppeteer's bundled Chromium
+# Install essential system libraries for Puppeteer's bundled Chromium
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libnss3 \
@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libasound2 \
     libgconf-2-4 \
+    libgbm1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
