@@ -1,13 +1,8 @@
 FROM node:20-slim
 
-# Set up Chrome repository and install required tools
-RUN apt-get update && apt-get install -y wget gnupg \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-
-# Install Chrome and required dependencies
+# Install Chromium and required system dependencies
 RUN apt-get update && apt-get install -y \
-    google-chrome-stable \
+    chromium-browser \
     libglib2.0-0 \
     libnss3 \
     libatk-bridge2.0-0 \
@@ -30,5 +25,5 @@ RUN npm install
 # Copy application code
 COPY index.js .
 
-# Run the script with dynamically detected Chrome path
-CMD ["/bin/bash", "-c", "export PUPPETEER_EXECUTABLE_PATH=$(which google-chrome-stable) && echo 'Chrome path: $PUPPETEER_EXECUTABLE_PATH' && npm start"]
+# Run the script with dynamically detected Chromium path
+CMD ["/bin/bash", "-c", "export PUPPETEER_EXECUTABLE_PATH=$(which chromium-browser) && echo 'Chromium path: $PUPPETEER_EXECUTABLE_PATH' && npm start"]
