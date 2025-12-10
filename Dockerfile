@@ -1,8 +1,7 @@
 FROM node:20-slim
 
-# Install Chromium and required system dependencies
+# Install only essential system libraries for Puppeteer's bundled Chromium
 RUN apt-get update && apt-get install -y \
-    chromium-browser \
     libglib2.0-0 \
     libnss3 \
     libatk-bridge2.0-0 \
@@ -19,11 +18,11 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install Node dependencies
+# Install Node dependencies (Puppeteer will download its own Chromium)
 RUN npm install
 
 # Copy application code
 COPY index.js .
 
-# Run the script with dynamically detected Chromium path
-CMD ["/bin/bash", "-c", "export PUPPETEER_EXECUTABLE_PATH=$(which chromium-browser) && echo 'Chromium path: $PUPPETEER_EXECUTABLE_PATH' && npm start"]
+# Run the script
+CMD ["npm", "start"]
